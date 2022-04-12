@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchWeatherAction } from './redux/slices/weatherSlices';
+import { useSelector } from 'react-redux';
 import FavouritesPage from './pages/FavouritesPage';
 import WeatherPage from './pages/WeatherPage';
 import { MainHeader } from './components/MainHeader';

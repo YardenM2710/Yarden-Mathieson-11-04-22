@@ -7,7 +7,7 @@ import {
   updateWeatherData,
 } from '../redux/slices/weatherSlices';
 
-export default function FavouritesPage({ history, state }) {
+export default function FavouritesPage({ state }) {
   const { favouriteCities } = state.weatherReducer;
   let navigate = useNavigate();
   const dispatch = useDispatch();

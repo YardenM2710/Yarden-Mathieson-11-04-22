@@ -3,7 +3,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { weatherService } from '../services/weatherService';
 import React, { useEffect, useState } from 'react';
 import StarIcon from '@mui/icons-material/Star';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   getFiveDaysWeather,
   getFavouriteCities,
@@ -11,24 +11,32 @@ import {
 } from '../redux/slices/weatherSlices';
 import img from '../imgs/clowdie.png';
 import { utilService } from '../services/utilService';
+import getIconImage from '../services/weatherIconMapping';
+import { useDebounce } from '../hooks/useDebounce';
 
 export default function WeatherPage({ state }) {
   //Dispatch Action
   const dispatch = useDispatch();
   console.log('state : ', state);
+
   //State
   const [favouriteCities, setFavouriteCities] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [currentCountry, setCurrentCountry] = useState(null);
   const [autoCompleteData, setAutoCompleteData] = useState([]);
+
+  //Store
   const { weatherDisplayData, fiveDaysData } = state.weatherReducer;
+
+  //Debounce hook
+  const debouncedSearchTerm = useDebounce(inputValue, 2000);
   const defaultTelAviv = 'Tel Aviv';
 
   //Default API call to fetch Tel Aviv data
   useEffect(() => {
     async function fetchDefaultStarterData() {
       if (!weatherDisplayData) {
-        const data = await weatherService.fetchDefaultData(defaultTelAviv);
+        const data = await weatherService.fetchDataByName(defaultTelAviv);
         dispatch(fetchWeatherData(data));
         dispatch(getFiveDaysWeather(data.Key));
         setCurrentCountry(data);
@@ -44,15 +52,16 @@ export default function WeatherPage({ state }) {
   //Set Auto Complete Data
   useEffect(() => {
     async function fetchData() {
-      if (!inputValue) return;
+      if (!debouncedSearchTerm) return;
       const weatherData = await weatherService.fetchAutoCompleteData(
-        inputValue
+        debouncedSearchTerm
       );
       setAutoCompleteData(weatherData);
     }
     fetchData();
-  }, [inputValue]);
+  }, [debouncedSearchTerm]);
 
+  //When click on a country
   function onCountryPick(value) {
     if (value) {
       const country = findCountry(value);
@@ -62,12 +71,15 @@ export default function WeatherPage({ state }) {
       }
     }
   }
-  async function addToFavourites(country, countryName) {
-    const updatedCountry = { ...country };
-    updatedCountry.Name = countryName;
-    const key = await weatherService.fetchDefaultData(countryName);
-    updatedCountry.Key = key.Key;
-    setFavouriteCities((oldArray) => [...oldArray, updatedCountry]);
+
+  //Add to favourirtes
+  async function addToFavourites(city, cityName) {
+    //Adding some data to the favourite city
+    const updatedCity = { ...city };
+    updatedCity.Name = cityName;
+    const key = await weatherService.fetchDataByName(cityName);
+    updatedCity.Key = key.Key;
+    setFavouriteCities((oldArray) => [...oldArray, updatedCity]);
   }
   useEffect(() => {
     dispatch(getFavouriteCities(favouriteCities));
@@ -127,11 +139,11 @@ export default function WeatherPage({ state }) {
           <div className="weather-current-city">
             <img src={img} />
             <div>
-              {currentCountry.Name ? (
-                <h1>{currentCountry.Name}</h1>
-              ) : (
+              {/* {currentCountry.Name ? ( */}
+              <h1>{currentCountry.label}</h1>
+              {/* ) : (
                 <h1>{currentCountry.label}</h1>
-              )}
+              )} */}
               <h1>
                 {weatherDisplayData.Temperature.Metric.Value}
                 <span>&#8451;</span>
@@ -154,6 +166,7 @@ export default function WeatherPage({ state }) {
                 <div key={city.EpochDate} className="weather-data-card">
                   <h3>{city.Day.IconPhrase}</h3>
                   <h3>{utilService.formatDate(city.Date)}</h3>
+                  <img src={getIconImage(city.Day.Icon)} alt="img"></img>
                   <span>
                     Min {utilService.fToC(city.Temperature.Minimum.Value)}
                     &#8451;

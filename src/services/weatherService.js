@@ -3,7 +3,7 @@ import { storageService } from './storageService.js';
 const STORAGE_KEY = 'favourites';
 export const weatherService = {
   fetchAutoCompleteData,
-  fetchDefaultData,
+  fetchDataByName,
   save,
   query,
 };
@@ -192,7 +192,7 @@ async function fetchAutoCompleteData(inputValue) {
   }
 }
 
-async function fetchDefaultData(city) {
+async function fetchDataByName(city) {
   // const { data } = await axios.get(
   //   `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}&q=${city}`
   // );

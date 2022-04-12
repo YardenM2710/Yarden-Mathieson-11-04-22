@@ -1,6 +1,7 @@
 import React from 'react';
 import img from '../imgs/clowdie.png';
 import { utilService } from '../services/utilService';
+import getIconImage from '../services/weatherIconMapping';
 
 export default function WeatherContainer({
   backToMain,
@@ -16,7 +17,7 @@ export default function WeatherContainer({
           className="weather-city-container"
         >
           <div className="weather-current-city">
-            <img src={img} />
+            <img src={getIconImage(currentCountry.WeatherIcon)} alt="img"></img>
             <div>
               <h2>{countryName}</h2>
               <h1>
