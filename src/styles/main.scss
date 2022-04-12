@@ -1,0 +1,16 @@
+// Setup
+@import 'setup/variables';
+@import 'setup/functions';
+@import 'setup/mixins';
+
+// Basics
+@import 'basics/base';
+@import 'basics/helpers';
+@import 'basics/layout';
+@import 'basics/modals';
+@import 'basics/animations';
+
+//components
+@import 'components/main-header';
+@import 'components/weather-page';
+@import 'components/weather-favourites';

@@ -1,0 +1,33 @@
+.favourites-container {
+  text-align: center;
+  .weather-favourites {
+    border: 1px solid red;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+    padding: 50px;
+    .weather-city-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border: 1px solid red;
+      padding: 30px;
+      .weather-details {
+        padding: 10px;
+      }
+    }
+  }
+}
+
+.no-favourites {
+  border: 1px solid red;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+}
