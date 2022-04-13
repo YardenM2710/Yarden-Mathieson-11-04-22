@@ -21,7 +21,7 @@ export function MainHeader({ toggleDarkMode }) {
     <header className="app-header">
       {isMenuOpen && <div onClick={toggleMenu} className="screen"></div>}
       <section>
-        <h1 className="logo">Abra Weather Task</h1>
+        <h1 className="logo">Abra Weather</h1>
         <DarkModeSwitch toggleDarkMode={toggleDarkMode} />
 
         <div onClick={toggleMenu} className="menu">
