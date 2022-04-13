@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { utilService } from '../../services/utilService';
 import { weatherService } from '../../services/weatherService';
 
 export const fetchWeatherData = createAsyncThunk(
@@ -229,6 +230,21 @@ export const getFiveDaysWeather = createAsyncThunk(
       // const { data } = await axios.get(
       //   `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${payload}?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}`
       // );
+
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+export const removeFavourite = createAsyncThunk(
+  'weather/removeFavourite',
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const data = payload;
       return data;
     } catch (error) {
       if (!error?.response) {
@@ -243,7 +259,6 @@ export const getFavouriteCities = createAsyncThunk(
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
       const data = payload;
-      weatherService.save(data);
       return data;
     } catch (error) {
       if (!error?.response) {
@@ -253,6 +268,7 @@ export const getFavouriteCities = createAsyncThunk(
     }
   }
 );
+
 export const updateWeatherData = createAsyncThunk(
   'weather/updateWeatherData',
   async (payload, { rejectWithValue, getState, dispatch }) => {
@@ -281,6 +297,7 @@ const weatherSlice = createSlice({
     builder.addCase(fetchWeatherData.fulfilled, (state, action) => {
       state.weatherDisplayData = action?.payload;
       state.loading = false;
+      state.weatherDisplayData.id = utilService.makeId();
       state.error = undefined;
     });
     builder.addCase(updateWeatherData.fulfilled, (state, action) => {
@@ -291,7 +308,9 @@ const weatherSlice = createSlice({
     builder.addCase(getFavouriteCities.fulfilled, (state, action) => {
       state.favouriteCities = action?.payload;
     });
-
+    builder.addCase(removeFavourite.fulfilled, (state, action) => {
+      state.favouriteCities = action?.payload;
+    });
     builder.addCase(getFiveDaysWeather.fulfilled, (state, action) => {
       state.fiveDaysData = action?.payload.DailyForecasts;
       state.loading = false;

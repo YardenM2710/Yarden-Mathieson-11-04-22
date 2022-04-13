@@ -1,11 +1,8 @@
 import axios from 'axios';
-import { storageService } from './storageService.js';
 const STORAGE_KEY = 'favourites';
 export const weatherService = {
   fetchAutoCompleteData,
   fetchDataByName,
-  save,
-  query,
 };
 
 async function fetchAutoCompleteData(inputValue) {
@@ -263,23 +260,4 @@ async function fetchDataByName(city) {
   const updatedData = data;
   updatedData[0].label = updatedData[0].LocalizedName;
   return updatedData[0];
-}
-
-var gFavourites = _loadFavourites();
-
-function query(filterBy) {
-  let favouritesToReturn = gFavourites;
-  return Promise.resolve([...favouritesToReturn]);
-}
-
-function _loadFavourites() {
-  let favourites = storageService.load(STORAGE_KEY);
-  if (!favourites || !favourites.length) favourites = gFavourites;
-  storageService.store(STORAGE_KEY, favourites);
-  return favourites;
-}
-
-function save(data) {
-  storageService.store(STORAGE_KEY, data);
-  return Promise.resolve(data);
 }

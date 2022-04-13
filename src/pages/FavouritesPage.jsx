@@ -35,7 +35,7 @@ export default function FavouritesPage({ state }) {
           <WeatherContainer
             backToMain={backToMain}
             key={Math.random(idx)}
-            countryName={city.Name}
+            countryName={city.label}
             currentCountry={city}
           />
         ))}

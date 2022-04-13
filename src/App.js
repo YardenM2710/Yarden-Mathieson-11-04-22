@@ -5,22 +5,31 @@ import WeatherPage from './pages/WeatherPage';
 import { MainHeader } from './components/MainHeader';
 
 import './styles/main.scss';
+import { useState } from 'react';
 
 function App() {
   //Select state from store
   const state = useSelector((state) => state);
+  const [isDark, setIsDark] = useState(false);
+
+  function toggleDarkMode(value) {
+    console.log(value);
+    setIsDark(value);
+  }
 
   return (
     <Router>
-      <MainHeader />
-      <main className="app">
-        <Routes>
-          <Route
-            element={<FavouritesPage state={state} />}
-            path="/favourites"
-          />
-          <Route element={<WeatherPage state={state} />} path="/" />
-        </Routes>
+      <main className={isDark ? 'dark-theme' : ''}>
+        <div className="app">
+          <MainHeader toggleDarkMode={toggleDarkMode} />
+          <Routes>
+            <Route
+              element={<FavouritesPage state={state} />}
+              path="/favourites"
+            />
+            <Route element={<WeatherPage state={state} />} path="/" />
+          </Routes>
+        </div>
       </main>
     </Router>
   );

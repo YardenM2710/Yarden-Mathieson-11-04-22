@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
+import DarkModeSwitch from './DarkModeSwitch';
 
-export function MainHeader() {
+export function MainHeader({ toggleDarkMode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navbar = useRef(null);
 
@@ -21,6 +22,8 @@ export function MainHeader() {
       {isMenuOpen && <div onClick={toggleMenu} className="screen"></div>}
       <section>
         <h1 className="logo">Weather App</h1>
+        <DarkModeSwitch toggleDarkMode={toggleDarkMode} />
+
         <div onClick={toggleMenu} className="menu">
           <MenuIcon />
         </div>
