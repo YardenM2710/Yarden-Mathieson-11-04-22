@@ -286,7 +286,9 @@ export const updateWeatherData = createAsyncThunk(
 
 const weatherSlice = createSlice({
   name: 'weather',
-  initialState: {},
+  initialState: {
+    favouriteCities: [],
+  },
   extraReducers: (builder) => {
     //Handle Pending
     builder.addCase(fetchWeatherData.pending, (state, action) => {
@@ -306,7 +308,7 @@ const weatherSlice = createSlice({
       state.error = undefined;
     });
     builder.addCase(getFavouriteCities.fulfilled, (state, action) => {
-      state.favouriteCities = action?.payload;
+      state.favouriteCities = [...state.favouriteCities, action?.payload];
     });
     builder.addCase(removeFavourite.fulfilled, (state, action) => {
       state.favouriteCities = action?.payload;

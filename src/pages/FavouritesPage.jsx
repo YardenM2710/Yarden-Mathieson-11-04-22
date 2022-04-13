@@ -14,6 +14,7 @@ export default function FavouritesPage({ state }) {
 
   function backToMain(ev, city) {
     ev.stopPropagation();
+    console.log('City Favourite', city);
     dispatch(updateWeatherData(city));
     dispatch(getFiveDaysWeather(city.Key));
     navigate('/');
