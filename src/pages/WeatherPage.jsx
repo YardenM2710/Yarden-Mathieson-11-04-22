@@ -63,10 +63,15 @@ export default function WeatherPage(props) {
   useEffect(() => {
     async function fetchData() {
       if (!debouncedSearchTerm) return;
-      const weatherData = await weatherService.fetchAutoCompleteData(
-        debouncedSearchTerm
-      );
-      setAutoCompleteData(weatherData);
+      try {
+        const weatherData = await weatherService.fetchAutoCompleteData(
+          debouncedSearchTerm
+        );
+        setAutoCompleteData(weatherData);
+      } catch (error) {
+        ///TODO ERROR MODAL
+        console.log(error);
+      }
     }
     fetchData();
   }, [debouncedSearchTerm]);
@@ -102,12 +107,12 @@ export default function WeatherPage(props) {
   }, [favouriteCities, currentCountry]);
 
   async function addToFavourites(city, key) {
-    let isFav = null;
+    let favCity = null;
     if (favouriteCities.length > 0) {
-      isFav = favouriteCities.find((favorite) => favorite.id === city.id);
+      favCity = favouriteCities.find((favorite) => favorite.id === city.id);
     }
-    console.log('Is Allready Favourite', isFav);
-    if (isFav) return;
+    console.log('Is Allready Favourite', favCity);
+    if (favCity) return;
     let cityToUpdate = { ...city };
     console.log('CITY DATA', city);
     const cityData = findCountry(city.label);
@@ -169,49 +174,52 @@ export default function WeatherPage(props) {
       </div>
       {weatherDisplayData && currentCountry ? (
         <div className="weather-city-container">
-          <Slider toggleCelsius={toggleCelsius} />
-          <div className="add-to-favourites">
-            {isFavourite ? (
-              <IconButton
-                onClick={() => onRemoveFavourite(weatherDisplayData)}
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-              >
-                <StarIcon />
-              </IconButton>
-            ) : (
-              <IconButton
-                onClick={() => addToFavourites(weatherDisplayData)}
-                edge="start"
-                color="inherit"
-                aria-label="menu"
-              >
-                <StarBorderIcon />
-              </IconButton>
-            )}
-          </div>
-          <div className="weather-current-city">
-            <img src={img} />
-            <div>
-              {/* {currentCountry.Name ? ( */}
-              <h1>{weatherDisplayData.label}</h1>
-              {/* ) : (
-                <h1>{currentCountry.label}</h1>
-              )} */}
-              {isCelsius ? (
-                <h1>
-                  {weatherDisplayData.Temperature.Imperial.Value}
-                  <span>&#8457;</span>
-                </h1>
+          <div className="weather-city-header">
+            <div className="weather-current-city">
+              <img
+                src={getIconImage(weatherDisplayData.WeatherIcon)}
+                alt="img"
+              ></img>
+
+              <div>
+                <h1>{weatherDisplayData.label}</h1>
+                {isCelsius ? (
+                  <h1>
+                    {weatherDisplayData.Temperature.Imperial.Value}
+                    <span>&#8457;</span>
+                  </h1>
+                ) : (
+                  <h1>
+                    {weatherDisplayData.Temperature.Metric.Value}
+                    <span>&#8451;</span>
+                  </h1>
+                )}
+              </div>
+            </div>
+            <Slider toggleCelsius={toggleCelsius} />
+            <div className="add-to-favourites">
+              {isFavourite ? (
+                <IconButton
+                  onClick={() => onRemoveFavourite(weatherDisplayData)}
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                >
+                  <StarIcon />
+                </IconButton>
               ) : (
-                <h1>
-                  {weatherDisplayData.Temperature.Metric.Value}
-                  <span>&#8451;</span>
-                </h1>
+                <IconButton
+                  onClick={() => addToFavourites(weatherDisplayData)}
+                  edge="start"
+                  color="inherit"
+                  aria-label="menu"
+                >
+                  <StarBorderIcon />
+                </IconButton>
               )}
             </div>
           </div>
+
           <div className="weather-details">
             <h1>
               <span>{weatherDisplayData.WeatherText}</span>

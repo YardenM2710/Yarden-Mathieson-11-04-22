@@ -17,7 +17,7 @@ const iconImages = {
   4: icon21,
   5: icon05,
   6: icon06,
-  7: icon08,
+  7: icon02,
   8: icon08,
   9: icon08,
   10: icon08,
@@ -29,6 +29,19 @@ const iconImages = {
   18: icon18,
   21: icon21,
   22: icon22,
+  23: icon08,
+  24: icon08,
+  25: icon08,
+  26: icon08,
+  27: icon08,
+  28: icon12,
+  29: icon12,
+  30: icon14,
+  31: icon15,
+  32: icon18,
+  33: icon21,
+  34: icon22,
+  35: icon06,
 };
 
 export default function getIconImage(iconNumber) {

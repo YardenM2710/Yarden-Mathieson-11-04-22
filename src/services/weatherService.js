@@ -10,6 +10,7 @@ async function fetchAutoCompleteData(inputValue) {
     // const { data } = await axios.get(
     //   `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}&q=${inputValue}`
     // );
+
     const data = [
       {
         Version: 1,
