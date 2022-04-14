@@ -284,6 +284,88 @@ export const updateWeatherData = createAsyncThunk(
   }
 );
 
+export const getGeoLocationData = createAsyncThunk(
+  'weather/getGeoLocationData',
+  async (payload, { rejectWithValue, getState, dispatch }) => {
+    try {
+      // const { data } = await axios.get(
+      //   `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}&q=${payload.lat},${payload.lon}`
+      // );
+      const data = {
+        Version: 1,
+        Key: '213238',
+        Type: 'City',
+        Rank: 75,
+        LocalizedName: 'Luzit',
+        EnglishName: 'Luzit',
+        PrimaryPostalCode: '',
+        Region: {
+          ID: 'MEA',
+          LocalizedName: 'Middle East',
+          EnglishName: 'Middle East',
+        },
+        Country: {
+          ID: 'IL',
+          LocalizedName: 'Israel',
+          EnglishName: 'Israel',
+        },
+        AdministrativeArea: {
+          ID: 'JM',
+          LocalizedName: 'Jerusalem',
+          EnglishName: 'Jerusalem',
+          Level: 1,
+          LocalizedType: 'District',
+          EnglishType: 'District',
+          CountryID: 'IL',
+        },
+        TimeZone: {
+          Code: 'IDT',
+          Name: 'Asia/Jerusalem',
+          GmtOffset: 3,
+          IsDaylightSaving: true,
+          NextOffsetChange: '2022-10-29T23:00:00Z',
+        },
+        GeoPosition: {
+          Latitude: 31.683,
+          Longitude: 34.883,
+          Elevation: {
+            Metric: {
+              Value: 167,
+              Unit: 'm',
+              UnitType: 5,
+            },
+            Imperial: {
+              Value: 547,
+              Unit: 'ft',
+              UnitType: 0,
+            },
+          },
+        },
+        IsAlias: false,
+        SupplementalAdminAreas: [],
+        DataSets: [
+          'AirQualityCurrentConditions',
+          'AirQualityForecasts',
+          'Alerts',
+          'DailyPollenForecast',
+          'ForecastConfidence',
+          'FutureRadar',
+          'MinuteCast',
+        ],
+      };
+      const updatedData = data;
+      updatedData.label = updatedData.LocalizedName;
+
+      return updatedData;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
 const weatherSlice = createSlice({
   name: 'weather',
   initialState: {
@@ -297,15 +379,19 @@ const weatherSlice = createSlice({
 
     //FullFilled
     builder.addCase(fetchWeatherData.fulfilled, (state, action) => {
-      state.weatherDisplayData = action?.payload;
+      state.weather = action?.payload;
       state.loading = false;
-      state.weatherDisplayData.id = utilService.makeId();
+      state.weather.id = utilService.makeId();
       state.error = undefined;
     });
     builder.addCase(updateWeatherData.fulfilled, (state, action) => {
-      state.weatherDisplayData = action?.payload;
+      state.weather = action?.payload;
       state.loading = false;
       state.error = undefined;
+    });
+    builder.addCase(getGeoLocationData.fulfilled, (state, action) => {
+      state.userPosition = action?.payload;
+      state.userPosition.id = utilService.makeId();
     });
     builder.addCase(getFavouriteCities.fulfilled, (state, action) => {
       state.favouriteCities = [...state.favouriteCities, action?.payload];
@@ -321,7 +407,7 @@ const weatherSlice = createSlice({
     //Rejected
     builder.addCase(fetchWeatherData.rejected, (state, action) => {
       state.loading = false;
-      state.weatherDisplayData = undefined;
+      state.weather = undefined;
       state.error = action?.payload;
     });
   },

@@ -194,6 +194,7 @@ async function fetchDataByName(city) {
   // const { data } = await axios.get(
   //   `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}&q=${city}`
   // );
+
   const data = [
     {
       Version: 1,
