@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import { Button } from '@mui/material';
 
@@ -16,9 +16,9 @@ export default function GeoLocation({ setGeoLocation }) {
     }
 
     if (!navigator.geolocation) {
-      status.textContent = 'Geolocation is not supported by your browser';
+      status.current.textContent =
+        'Geolocation is not supported by your browser';
     } else {
-      status.textContent = 'Locating…';
       navigator.geolocation.getCurrentPosition(success, error);
     }
   }

@@ -13,7 +13,6 @@ function App() {
   const [isDark, setIsDark] = useState(false);
 
   function toggleDarkMode(value) {
-    console.log(value);
     setIsDark(value);
   }
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+
 export function Slider({ toggleCelsius }) {
   const [success, setSuccess] = useState(false);
   useEffect(() => {

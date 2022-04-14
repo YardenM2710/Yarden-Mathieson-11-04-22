@@ -1,6 +1,3 @@
-import React from 'react';
-import img from '../imgs/clowdie.png';
-import { utilService } from '../services/utilService';
 import getIconImage from '../services/weatherIconMapping';
 
 export default function WeatherContainer({
@@ -8,7 +5,6 @@ export default function WeatherContainer({
   currentCountry,
   countryName,
 }) {
-  console.log('currentCountry!!', currentCountry);
   return (
     <>
       {currentCountry && (

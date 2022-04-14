@@ -22,7 +22,7 @@ import UserMessage from '../components/UserMessage';
 export default function WeatherPage(props) {
   //Dispatch Action
   const dispatch = useDispatch();
-  console.log('props', props.state);
+
   //State
   const [inputValue, setInputValue] = useState('');
   const [autoCompleteData, setAutoCompleteData] = useState([]);
@@ -50,9 +50,6 @@ export default function WeatherPage(props) {
         dispatch(fetchWeatherData(data));
         dispatch(getFiveDaysWeather(data.Key));
         setCurrentKey(data.Key);
-        console.log('ON MOUNT DATA', data);
-      } else {
-        console.log('If Allready Exist Data Onmount', weather);
       }
     }
     fetchDefaultStarterData();
@@ -73,7 +70,6 @@ export default function WeatherPage(props) {
         );
         setAutoCompleteData(weatherData);
       } catch (error) {
-        ///TODO ERROR MODAL
         console.log(error);
       }
     }
@@ -95,17 +91,10 @@ export default function WeatherPage(props) {
   //Add to favourirtes
 
   useEffect(() => {
-    console.log(
-      'On Favourites Use Effect : Favourite Cities >>',
-      favouriteCities,
-      '\n Current Country : ',
-      weather
-    );
     if (weather) {
       const cityInFavorites = favouriteCities.find(
         (favorite) => favorite.label === weather.label
       );
-      console.log('cityInFavorites ?!?', cityInFavorites);
       cityInFavorites ? setIsFavorite(true) : setIsFavorite(false);
     }
   }, [favouriteCities, weather]);
@@ -118,8 +107,6 @@ export default function WeatherPage(props) {
     if (favCity) return;
     let cityToUpdate = { ...city };
     if (!city.Key) {
-      // const cityData = findCountry(city.label);
-      // cityToUpdate.Key = cityData?.Key;
       cityToUpdate.Key = currentKey;
     }
     dispatch(getFavouriteCities(cityToUpdate));
@@ -134,7 +121,6 @@ export default function WeatherPage(props) {
     const updatedFavourites = favouriteCities.filter(
       (fav) => city.id !== fav.id
     );
-    console.log('updatedFavourites', updatedFavourites);
     dispatch(removeFavourite(updatedFavourites));
     setIsMessageOn(true);
     setMessage('This city has been removed from your favourites');
@@ -143,25 +129,22 @@ export default function WeatherPage(props) {
     }, 3000);
   }
 
-  function findCountry(value) {
-    console.log('Find Country weatherData ? ', autoCompleteData);
-
+  //Find a country from autoCompleteData by name
+  function findCountry(name) {
     if (!autoCompleteData || autoCompleteData.length <= 0) {
-      weatherService.fetchAutoCompleteData(value);
+      weatherService.fetchAutoCompleteData(name);
     } else {
       const country = autoCompleteData.filter((country) => {
-        return country.label === value;
+        return country.label === name;
       });
       if (!country) return;
       return country[0];
     }
   }
 
-  //GeoLocation Handling
-
+  //User Location
   useEffect(() => {
     if (geoLocation) {
-      // console.log('AM I STILL HAPPENING ?');
       dispatch(getGeoLocationData(geoLocation));
       setIsUserFirstEntry(true);
     }
