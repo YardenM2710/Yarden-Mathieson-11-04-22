@@ -7,7 +7,7 @@ export const weatherService = {
 async function fetchAutoCompleteData(inputValue) {
   try {
     const { data } = await axios.get(
-      `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}&q=${inputValue}`
+      `https://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}&q=${inputValue}`
     );
 
     //Mock Data for Development
@@ -193,7 +193,7 @@ async function fetchAutoCompleteData(inputValue) {
 
 async function fetchDataByName(city) {
   const { data } = await axios.get(
-    `http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}&q=${city}`
+    `https://dataservice.accuweather.com/locations/v1/cities/search?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}&q=${city}`
   );
 
   //Mock Data for Development

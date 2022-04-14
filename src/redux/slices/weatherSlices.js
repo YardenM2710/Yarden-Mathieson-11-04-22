@@ -7,7 +7,7 @@ export const fetchWeatherData = createAsyncThunk(
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.get(
-        `http://dataservice.accuweather.com/currentconditions/v1/${payload.Key}?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}`
+        `https://dataservice.accuweather.com/currentconditions/v1/${payload.Key}?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}`
       );
 
       //Mock Data for Development
@@ -232,7 +232,7 @@ export const getFiveDaysWeather = createAsyncThunk(
       // };
 
       const { data } = await axios.get(
-        `http://dataservice.accuweather.com/forecasts/v1/daily/5day/${payload}?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}`
+        `https://dataservice.accuweather.com/forecasts/v1/daily/5day/${payload}?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}`
       );
 
       return data;
@@ -293,7 +293,7 @@ export const getGeoLocationData = createAsyncThunk(
   async (payload, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.get(
-        `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}&q=${payload.lat},${payload.lon}`
+        `https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${process.env.REACT_APP_ACCU_WEATHER_KEY}&q=${payload.lat},${payload.lon}`
       );
 
       //Mock Data for Development

@@ -159,7 +159,7 @@ export default function WeatherPage(props) {
     }
   }, [userPosition]);
 
-  if (!autoCompleteData) return <div>Loading...</div>;
+  if (!autoCompleteData) return <div className="error-message">Loading...</div>;
   return (
     <section className="weather-page container">
       <div className="weather-filter">
