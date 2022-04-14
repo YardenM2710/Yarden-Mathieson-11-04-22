@@ -1,0 +1,42 @@
+.dark-theme {
+  .app {
+    background-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.637),
+        rgba(57, 119, 253, 0.078)
+      ),
+      url('https://images.unsplash.com/photo-1488866022504-f2584929ca5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1162&q=80');
+    // background-image: url('https://images.unsplash.com/photo-1488866022504-f2584929ca5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1162&q=80');
+    color: rgb(222, 222, 222);
+  }
+
+  .weather-city-container {
+    background-color: rgba(0, 0, 0, 0.792);
+    .add-to-favourites {
+      color: rgb(255, 187, 0);
+    }
+    .weather-data-card {
+      background-color: rgba(255, 105, 105, 0);
+    }
+    .weather-details {
+      background-color: rgba(73, 103, 252, 0);
+    }
+    .slider {
+      .css-1yjjitx-MuiSwitch-track {
+        background-color: #fff;
+      }
+    }
+  }
+  .css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
+    background-color: rgba(255, 255, 255, 0.607);
+  }
+  .Mui-focused {
+    color: rgb(255, 255, 255) !important;
+  }
+  .weather-favourites {
+    background-color: rgba(117, 117, 117, 0.201);
+    .weather-city-container {
+      background-color: rgba(117, 117, 117, 0.393);
+    }
+  }
+}

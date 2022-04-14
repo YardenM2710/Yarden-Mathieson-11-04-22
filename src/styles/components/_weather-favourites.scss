@@ -1,0 +1,43 @@
+.favourites-container {
+  text-align: center;
+  .weather-favourites {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+    padding: 50px;
+    box-shadow: 0px 0px 13px -4px white;
+    background-color: rgba(255, 255, 255, 0.322);
+    .weather-city-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background-color: #fff;
+      box-shadow: 0px 0px 13px -4px;
+      min-width: 240px;
+      cursor: pointer;
+      padding: 30px;
+      transition: all 0.3s;
+
+      .weather-details {
+        padding: 10px;
+      }
+    }
+    .weather-city-container:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.no-favourites {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+}
